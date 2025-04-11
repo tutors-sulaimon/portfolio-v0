@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { fetchBlogs } from '../../lib/api';
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Blog } from '../../types/Blogs';
-
-
-
-// const API_BASE_URL = import.meta.env.VITE_IMAGES_URL;
 
 const BlogPosts: React.FC = () => {
   const { i18n } = useTranslation();
@@ -14,6 +10,7 @@ const BlogPosts: React.FC = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  //const navigate = useNavigate();
 
   useEffect(() => {
     const getBlogs = async () => {
@@ -39,6 +36,11 @@ const BlogPosts: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h2 className="text-3xl text-gray-500 text-center mb-8">Blogs</h2>
+      <div className="text-center mb-8">
+        <Link to="/blog/create" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+          Create New Blog Post
+        </Link>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
         {blogs.map((blog) => (
           <div
@@ -47,20 +49,15 @@ const BlogPosts: React.FC = () => {
             style={{ minHeight: '400px' }}
           >
             {blog.coverImage?.[0]?.url && (
-              <img
-                src={blog.coverImage[0].url}
-                alt={blog.title}
-                className="w-full h-48 object-cover"
-              />
+              <img src={blog.coverImage[0].url} alt={blog.title} className="w-full h-48 object-cover" />
             )}
             <div className="p-6 flex flex-col flex-grow">
               <div className="flex justify-between items-center mt-1">
-                <p className="text-sm text-gray-500 mb-4 flex justify-end">{blog.author}</p>
-                <p className="text-sm text-gray-500 mb-4 flex justify-end">{blog.date}</p>
+                <p className="text-sm text-gray-500 mb-4">{blog.author}</p>
+                <p className="text-sm text-gray-500 mb-4">{new Date(blog.date).toLocaleDateString()}</p>
               </div>
               <h3 className="text-xl font-semibold mb-2">{blog.title}</h3>
               <p className="text-sm text-gray-600 mb-4 flex-grow">{blog.description}</p>
-              
               <Link to={`/blog/${blog.documentId}`} className="text-sm text-gray-700 hover:text-blue-700 self-start">
                 Read More
               </Link>
