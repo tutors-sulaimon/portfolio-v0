@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { createBlog } from '../../lib/api';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -23,12 +23,12 @@ const CreateBlogPost: React.FC = () => {
         title,
         content,
         author,
-        coverImage: coverImage || undefined, // Ensure coverImage is undefined if null
+        coverImage: coverImage || undefined,
         date,
         description,
       };
 
-      console.log('Submitting blog data:', blogData); // Log the blogData object
+      console.log('Submitting blog data:', blogData);
 
       await createBlog(locale, blogData);
       navigate('/blog');
